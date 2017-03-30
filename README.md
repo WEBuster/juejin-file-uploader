@@ -1,9 +1,9 @@
-# qiniu-file-uploader
+# juejin-file-uploader
  web端上传资源到cdn的插件（ 依照七牛上传资源流程）
 
 ## 安装使用
 ```
-npm install juejin-file-upload
+npm install juejin-file-uploader
 
 ```
 
