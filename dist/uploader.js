@@ -79,9 +79,12 @@
    * @param {Object} url
    * @return {Object} 成功返回 url地址({http,https})
    */
-  Uploader.prototype.uploadFile = function ({ token, key, url }) {
+  Uploader.prototype.uploadFile = function (data) {
     var self = this
     var file = this._file
+    var token = data.token
+    var key = data.key
+    var url = data.url
     var uploadUrl = this._options.uploadUrl
     return new Promise((resolve, reject) => {
       var xhr = new XMLHttpRequest()
