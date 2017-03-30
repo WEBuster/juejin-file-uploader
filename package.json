@@ -1,0 +1,23 @@
+{
+  "name": "juejin-file-uploader",
+  "version": "1.0.0",
+  "description": "web端上传资源到cdn的插件（ 依照七牛上传资源流程）",
+  "main": "dist/uploader.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WEBuster/juejin-file-uploader.git"
+  },
+  "keywords": [
+    "上传文件",
+    "七牛",
+    "cdn"
+  ],
+  "author": "yangtao <yangtao@xitu.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WEBuster/juejin-file-uploader/issues"
+  },
+  "homepage": "https://github.com/WEBuster/juejin-file-uploader#readme"
+}
