@@ -2,7 +2,6 @@
  * Uploader v1.0.0
  * (c) 2017 yangtao <iam_yt@163.com>
  * @license MIT
- *
  */
 
 (function (global, factory) {
@@ -33,15 +32,14 @@
     }
     this._file = _file
 
-    return new Promise((resolve, reject) => {
-      resolve(this.getToken())
-    }).then(rst => {
-      if (+rst.s !== 1) {
-        return Promise.reject(new Error('token 错误'))
-      } else {
-        return this.uploadFile(rst.d)
-      }
-    })
+    return this.getToken()
+      .then(rst => {
+        if (+rst.s !== 1) {
+          return new Error('token 错误')
+        } else {
+          return this.uploadFile(rst.d)
+        }
+      })
   }
 
   /**
@@ -84,7 +82,7 @@
     var file = this._file
     var token = data.token
     var key = data.key
-    var url = data.url
+    var url = data.url.https
     var uploadUrl = this._options.uploadUrl
     return new Promise((resolve, reject) => {
       var xhr = new XMLHttpRequest()
@@ -100,7 +98,6 @@
           return
         }
         if (xhr.status == 200) {
-          var blkRet = xhr.response
           resolve(url)
         } else {
           reject(new Error(xhr.statusText))
@@ -114,7 +111,7 @@
   }
 
   // util
-  function toQueryPair(key, value) {
+  function toQueryPair (key, value) {
     if (typeof value == 'undefined') {
       return key
     }
@@ -122,7 +119,7 @@
   }
   // JSON 转 URL
   // toQueryString({bucket: 'abc',filename: 'name.jpg'}) //name=xesam&age=24
-  function toQueryString(obj) {
+  function toQueryString (obj) {
     var ret = []
     for (var key in obj) {
       key = encodeURIComponent(key)
