@@ -12,7 +12,7 @@
    * @param {String} bucket  存储空间
    * @param {String} uploadUrl 上传文件的接口地址
    * @param {String} tokenUrl 获取token的接口地址
-   * @return {Object} Promise类型,返回结果一个url对象({http,https})
+   * @return {String} Promise类型,resolve返回结果一个url
    */
   var Uploader = function (options) {
     var _options = {
@@ -75,7 +75,7 @@
    * @param {String} token
    * @param {String} key
    * @param {Object} url
-   * @return {Object} 成功返回 url地址({http,https})
+   * @return {String} 成功返回 https的url地址
    */
   Uploader.prototype.uploadFile = function (data) {
     var self = this
