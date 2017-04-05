@@ -1,6 +1,6 @@
 {
   "name": "juejin-file-uploader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "web端上传资源到cdn的插件（ 依照七牛上传资源流程）",
   "main": "dist/uploader.js",
   "scripts": {

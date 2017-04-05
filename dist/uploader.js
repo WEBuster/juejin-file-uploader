@@ -1,5 +1,5 @@
 /**
- * Uploader v1.0.0
+ * Uploader v1.0.3
  * (c) 2017 yangtao <iam_yt@163.com>
  * @license MIT
  */
@@ -27,6 +27,7 @@
 
   // 上传
   Uploader.prototype.upload = function (_file) {
+    var self = this
     if (!_file) {
       return
     }
@@ -37,7 +38,7 @@
         if (+rst.s !== 1) {
           return new Error('token 错误')
         } else {
-          return this.uploadFile(rst.d)
+          return self.uploadFile(rst.d)
         }
       })
   }
