@@ -33,7 +33,7 @@
     this._file = _file
 
     return this.getToken()
-      .then(rst => {
+      .then(function (rst) {
         if (+rst.s !== 1) {
           return new Error('token 错误')
         } else {
@@ -49,7 +49,7 @@
     var tokenUrl = this._options.tokenUrl
     var bucket = this._options.bucket
     var urlStr = toQueryString({ bucket: bucket, filename: this._file.name })
-    return new Promise((resolve, reject) => {
+    return new Promise(function (resolve, reject) {
       var xhr = new XMLHttpRequest()
       xhr.open('GET', tokenUrl + '?' + urlStr, true)
       xhr.responseType = 'json'
@@ -84,7 +84,7 @@
     var key = data.key
     var url = data.url.https
     var uploadUrl = this._options.uploadUrl
-    return new Promise((resolve, reject) => {
+    return new Promise(function (resolve, reject) {
       var xhr = new XMLHttpRequest()
       xhr.open('POST', uploadUrl, true)
       var formData
@@ -111,7 +111,7 @@
   }
 
   // util
-  function toQueryPair (key, value) {
+  function toQueryPair(key, value) {
     if (typeof value == 'undefined') {
       return key
     }
@@ -119,12 +119,12 @@
   }
   // JSON 转 URL
   // toQueryString({bucket: 'abc',filename: 'name.jpg'}) //name=xesam&age=24
-  function toQueryString (obj) {
+  function toQueryString(obj) {
     var ret = []
     for (var key in obj) {
       key = encodeURIComponent(key)
       var values = obj[key]
-      if (values && values.constructor == Array) {
+      if (values && Array.isArray(values)) {
         var queryValues = []
         for (var i = 0, len = values.length, value; i < len; i++) {
           value = values[i]
