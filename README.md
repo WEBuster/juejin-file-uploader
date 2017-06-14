@@ -25,7 +25,6 @@ export default {
         tokenUrl: 'tokenUrl',
         uploadUrl: 'uploadUrl'
       })
-      // 上传
       uploader.upload(_file)
         .then(result => {
           console.log(result)
@@ -33,8 +32,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-      // 取消
-      uploader.abort()
     }
   }
 }
@@ -48,6 +45,10 @@ var upload = new Uploader({
     "uploadUrl": "uploadUrl" //上传文件至七牛云的接口地址
     "tokenUrl": "tokenUrl" //获取token的接口地址(juejin.im封装的接口)
   })
+  // 上传
+  uploader.upload(_file)
+  // 取消
+  uploader.abort()
 ```
 ## 参数及接口流程说明
 
