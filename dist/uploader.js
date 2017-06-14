@@ -1,5 +1,5 @@
 /**
- * Uploader v1.0.3
+ * Uploader v1.0.4
  * (c) 2017 yangtao <iam_yt@163.com>
  * @license MIT
  */
@@ -23,6 +23,7 @@
     Object.assign(_options, options || {})
     this._options = _options
     this._file = {}
+    this._xhr = new XMLHttpRequest()
   }
 
   // 上传
@@ -41,6 +42,11 @@
           return self.uploadFile(rst.d)
         }
       })
+  }
+
+  // 取消上传
+  Uploader.prototype.abort = function () {
+    this._xhr.abort && this._xhr.abort()
   }
 
   /**
@@ -87,6 +93,7 @@
     var uploadUrl = this._options.uploadUrl
     return new Promise(function (resolve, reject) {
       var xhr = new XMLHttpRequest()
+      self._xhr = xhr
       xhr.open('POST', uploadUrl, true)
       var formData
       formData = new FormData()
@@ -98,8 +105,10 @@
         if (xhr.readyState !== 4) {
           return
         }
-        if (xhr.status == 200) {
+        if (xhr.status === 200) {
           resolve(url)
+        } else if (xhr.status === 0) {
+          reject(new Error('取消上传'))
         } else {
           reject(new Error(xhr.statusText))
         }

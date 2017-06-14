@@ -25,6 +25,7 @@ export default {
         tokenUrl: 'tokenUrl',
         uploadUrl: 'uploadUrl'
       })
+      // 上传
       uploader.upload(_file)
         .then(result => {
           console.log(result)
@@ -32,6 +33,8 @@ export default {
         .catch(error => {
           console.log(error)
         })
+      // 取消
+      uploader.abort()
     }
   }
 }
