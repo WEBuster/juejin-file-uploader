@@ -1,74 +1,96 @@
 # juejin-file-uploader
- web端上传资源到cdn的插件（ 依照七牛上传资源流程）
 
-## 安装使用
-```
-npm install juejin-file-uploader
+[![Build Status](https://img.shields.io/travis/WEBuster/juejin-file-uploader.svg?style=flat-square)](https://travis-ci.org/WEBuster/juejin-file-uploader)
+[![Version](https://img.shields.io/npm/v/juejin-file-uploader.svg?style=flat-square)](https://www.npmjs.com/package/juejin-file-uploader)
+[![License](https://img.shields.io/npm/l/juejin-file-uploader.svg?style=flat-square)](LICENSE)
 
+[掘金](https://juejin.im) 浏览器端文件上传插件，基于 [七牛云存储](https://www.qiniu.com/) 。
+
+## 安装
+
+```bash
+npm i -S juejin-file-uploader
 ```
+
+## 使用
+
+### 初始化
+
+#### 模块化环境
+
+```js
+import FileUploader from 'juejin-file-uploader'
+
+const fileUploader = new FileUploader({
+  bucket: 'temp'
+})
+```
+
+#### 浏览器直引
 
 ```html
-<template>
-  <div>
-    <input type="file" @change="postFile($event.target.files[0])">
-  </div>
-</template>
+<script src="path/to/juejin-file-uploader.min.js"></script>
+```
 
-<script>
-import Uploader from 'juejin-file-uploader'
+```js
+var fileUploader = new JuejinFileUploader({
+  bucket: 'temp'
+})
+```
 
-export default {
-  methods: {
-    postFile (_file) {
-      let uploader = new Uploader({
-        bucket: 'assets',
-        tokenUrl: 'tokenUrl',
-        uploadUrl: 'uploadUrl'
-      })
-      uploader.upload(_file)
-        .then(result => {
-          console.log(result)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
-  }
+### 单文件
+
+```js
+fileUploader.createTask(file).start()
+.then(url => {
+  console.log(url)
+})
+.catch(error => {
+  console.error(error)
+})
+```
+
+### 多文件
+
+```js
+const uploadTaskList = fileList.map(createUploadTask)
+
+Promise.all(uploadTaskList)
+.then(resultList => {
+  console.log(resultList)
+})
+
+function createUploadTask (file) {
+  return fileUploader.createTask(file).start()
+  .then(url => ({ url }))
+  .catch(error => ({ error }))
 }
-</script>
 ```
 
-## 参数
+### 取消上传
+
+```js
+const uploadTask = fileUploader.createTask(file)
+
+uploadTask.start()
+.then(url => {
+  console.log(url)
+})
+.catch(error => {
+  if (error.aborted) {
+    console.log('上传已被主动取消', error.reason)
+  } else {
+    console.error(error)
+  }
+})
+
+uploadTask.abort('不想上传了')
 ```
-var upload = new Uploader({
-    "bucket": "bucket" //存储空间
-    "uploadUrl": "uploadUrl" //上传文件至七牛云的接口地址
-    "tokenUrl": "tokenUrl" //获取token的接口地址(juejin.im封装的接口)
-  })
-  // 上传
-  uploader.upload(_file)
-  // 取消
-  uploader.abort()
-```
-## 参数及接口流程说明
 
-七牛云资源上传需要正确的token,key及formData才能上传成功，
+## 前置需求
 
-而（token,key）的获取是需要（Access_Key,Secret_Key,bucket）通过 SDK取得的，
+- 支持 [Promise](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
-**tokenUrl** 接口就是用来取（token,key）的。
+## 相关文档
 
-同时tokenUrl需要接收<bucket> 和<fileName> 参数；
-
-    ps: <fileName>是插件根据选择的文件自动获取的,不用手动设置,只需配置<bucket>
-
-**tokenUrl**接口响应后会返回含有token,key,url的json
-
-
-插件会将这个json里面的（token,key）连同fileName（input选择的文件）一并传给七牛云接口 **uploadUrl**
-
-如果文件上传成功, 插件会将**tokenUrl**返回的url当做参数resolve,
-
-    ps: tokenUrl响应接口中的url是如果资源上传成功储存的位置
-
-
+[直传文件](https://developer.qiniu.com/kodo/api/1312/upload)
