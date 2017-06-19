@@ -40,7 +40,9 @@ export default class UploadTask {
 }
 
 function getUplaodInfo ({ filename, tokenUrl, bucket, xhr }) {
-  const url = `${tokenUrl}?bucket=${bucket}&filename=${filename}`
+  const url = `${tokenUrl}`
+    + `?bucket=${encodeURIComponent(bucket)}`
+    + `&filename=${encodeURIComponent(filename)}`
   return sendRequest({
     method: 'GET',
     url,
