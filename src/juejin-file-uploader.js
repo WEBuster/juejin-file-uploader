@@ -2,8 +2,7 @@ import UploadTask from './upload-task'
 
 const DEFAULT_CONFIG = {
   bucket: '',
-  tokenUrl: 'https://cdn-ms.xitu.io/v1/policy/info',
-  uploadUrl: 'https://up.qbox.me'
+  uploadUrl: 'https://cdn-ms.xitu.io/v1/upload'
 }
 
 export default class JuejinFileUploader {

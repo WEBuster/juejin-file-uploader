@@ -1,69 +1,38 @@
 export default class UploadTask {
 
-  constructor (file, { bucket, tokenUrl, uploadUrl }) {
+  constructor (file, { bucket, uploadUrl }) {
     this.file = file
     this.bucket = bucket
-    this.tokenUrl = tokenUrl
     this.uploadUrl = uploadUrl
-
-    this.infoXhr = new XMLHttpRequest()
     this.uploadXhr = new XMLHttpRequest()
     this.abortError = null
   }
 
   start () {
-    return getUplaodInfo({
-      filename: this.file.name,
-      tokenUrl: this.tokenUrl,
+    return uploadFile({
+      file: this.file,
       bucket: this.bucket,
-      xhr: this.infoXhr
+      uploadUrl: this.uploadUrl,
+      xhr: this.uploadXhr
     })
-    .then(({ token, key, url }) =>
-      uploadFile({
-        key,
-        token,
-        file: this.file,
-        uploadUrl: this.uploadUrl,
-        xhr: this.uploadXhr
-      })
-      .then(() => url)
-    )
+    .then(res => res.d.url.https)
     .catch(error => Promise.reject(this.abortError || error))
   }
 
   abort (reason) {
     this.abortError = createAbortError(reason)
-    this.infoXhr.abort()
     this.uploadXhr.abort()
   }
 
 }
 
-function getUplaodInfo ({ filename, tokenUrl, bucket, xhr }) {
-  const url = `${tokenUrl}`
-    + `?bucket=${encodeURIComponent(bucket)}`
-    + `&filename=${encodeURIComponent(filename)}`
-  return sendRequest({
-    method: 'GET',
-    url,
-    xhr
-  })
-  .then(res => res.d)
-  .then(info => ({
-    token: info.token,
-    key: info.key,
-    url: info.url.https
-  }))
-}
-
-function uploadFile ({ file, key, token, uploadUrl, xhr }) {
+function uploadFile ({ file, bucket, uploadUrl, xhr }) {
   const form = new FormData()
-  form.append('token', token)
+  const queryPrefix = uploadUrl.indexOf('?') === -1 ? '?' : '&'
   form.append('file', file)
-  form.append('key', key)
   return sendRequest({
     method: 'POST',
-    url: uploadUrl,
+    url: `${uploadUrl}${queryPrefix}bucket=${bucket}`,
     data: form,
     xhr
   })

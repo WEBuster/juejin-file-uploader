@@ -4,7 +4,7 @@
 [![Version](https://img.shields.io/npm/v/juejin-file-uploader.svg?style=flat-square)](https://www.npmjs.com/package/juejin-file-uploader)
 [![License](https://img.shields.io/npm/l/juejin-file-uploader.svg?style=flat-square)](LICENSE)
 
-[掘金](https://juejin.im) 浏览器端文件上传插件，基于 [七牛云存储](https://www.qiniu.com/) 。
+[掘金](https://juejin.im) 浏览器端文件上传插件。
 
 ## 安装
 
@@ -90,7 +90,3 @@ uploadTask.abort('不想上传了')
 ## 前置需求
 
 - 支持 [Promise](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-
-## 相关文档
-
-[直传文件](https://developer.qiniu.com/kodo/api/1312/upload)
