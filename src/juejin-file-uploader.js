@@ -2,7 +2,7 @@ import UploadTask from './upload-task'
 
 const DEFAULT_CONFIG = {
   bucket: '',
-  uploadUrl: 'https://cdn-ms.xitu.io/v1/upload'
+  uploadUrl: 'https://cdn-ms.juejin.im/v1/upload'
 }
 
 export default class JuejinFileUploader {
